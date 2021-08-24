@@ -13,6 +13,8 @@ services:
   redis_exporter:
     container_name: redis_exporter
     image: oliver006/redis_exporter
+    networks:
+      - test
     ports:
       - 9121:9121
     command: ["--redis.addr", "redis://redis:6379", "--redis.password", "password"]
@@ -25,6 +27,8 @@ services:
     links:
       - redis-server:redis-server
       - redis_exporter:redis_exporter
+    networks:
+      - test
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
 
@@ -33,7 +37,13 @@ services:
     image: grafana/grafana
     ports:
       - 3000:3000
+    user: '0'
     links:
       - prometheus-server:prometheus
+    networks:
+      - test
     volumes:
       - ~/volumes/grafana:/var/lib/grafana
+
+networks:
+  test:
