@@ -30,7 +30,6 @@ services:
       - redis-server:redis-server
       - redis_exporter:redis_exporter
     networks:
-      - test
       - test2
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
